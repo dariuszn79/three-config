@@ -1,8 +1,6 @@
 {
   "version": "1",
   "cognitoConfig": {
-    "identityPoolName": "threeconfig67bf6efc_identitypool_67bf6efc",
-    "allowUnauthenticatedIdentities": false,
     "resourceNameTruncated": "threec67bf6efc",
     "userPoolName": "threeconfig67bf6efc_userpool_67bf6efc",
     "autoVerifiedAttributes": [
@@ -35,15 +33,40 @@
     "userpoolClientSetAttributes": false,
     "sharedId": "67bf6efc",
     "resourceName": "threeconfig67bf6efc",
-    "authSelections": "identityPoolAndUserPool",
-    "useDefault": "default",
+    "authSelections": "userPoolOnly",
+    "useDefault": "manual",
     "usernameAttributes": [
       "email"
     ],
     "triggers": {},
-    "userPoolGroupList": [],
+    "userPoolGroupList": [
+      "Editors",
+      "Viewers"
+    ],
     "serviceName": "Cognito",
     "usernameCaseSensitive": false,
-    "useEnabledMfas": true
+    "useEnabledMfas": true,
+    "authRoleArn": {
+      "Fn::GetAtt": [
+        "AuthRole",
+        "Arn"
+      ]
+    },
+    "unauthRoleArn": {
+      "Fn::GetAtt": [
+        "UnauthRole",
+        "Arn"
+      ]
+    },
+    "breakCircularDependency": true,
+    "dependsOn": [],
+    "userPoolGroups": true,
+    "adminQueries": true,
+    "hostedUI": false,
+    "authProviders": [],
+    "parentStack": {
+      "Ref": "AWS::StackId"
+    },
+    "permissions": []
   }
 }
