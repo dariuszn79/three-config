@@ -1,26 +1,50 @@
 {
-  "dev": {
-    "awscloudformation": {
-      "AuthRoleName": "amplify-threeconfig-dev-31230-authRole",
-      "UnauthRoleArn": "arn:aws:iam::050808821446:role/amplify-threeconfig-dev-31230-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::050808821446:role/amplify-threeconfig-dev-31230-authRole",
-      "Region": "eu-west-2",
-      "DeploymentBucketName": "amplify-threeconfig-dev-31230-deployment",
-      "UnauthRoleName": "amplify-threeconfig-dev-31230-unauthRole",
-      "StackName": "amplify-threeconfig-dev-31230",
-      "StackId": "arn:aws:cloudformation:eu-west-2:050808821446:stack/amplify-threeconfig-dev-31230/08700930-2bf7-11ed-834d-0262d160791a",
-      "AmplifyAppId": "d26xpbinf53r92"
-    },
-    "categories": {
-      "auth": {
-        "threeconfig67bf6efc": {}
-      },
-      "hosting": {
-        "amplifyhosting": {
-          "appId": "d26xpbinf53r92",
-          "type": "cicd"
+    "master": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-threeconfig-master-24554-authRole",
+            "UnauthRoleArn": "arn:aws:iam::050808821446:role/amplify-threeconfig-master-24554-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::050808821446:role/amplify-threeconfig-master-24554-authRole",
+            "Region": "eu-west-2",
+            "DeploymentBucketName": "amplify-threeconfig-master-24554-deployment",
+            "UnauthRoleName": "amplify-threeconfig-master-24554-unauthRole",
+            "StackName": "amplify-threeconfig-master-24554",
+            "StackId": "arn:aws:cloudformation:eu-west-2:050808821446:stack/amplify-threeconfig-master-24554/b23e33c0-2bfb-11ed-aad4-06e5ccbdee7e",
+            "AmplifyAppId": "d26xpbinf53r92"
+        },
+        "categories": {
+            "auth": {
+                "threeconfig67bf6efc": {}
+            },
+            "hosting": {
+                "amplifyhosting": {
+                    "appId": "d26xpbinf53r92",
+                    "type": "cicd"
+                }
+            }
         }
-      }
+    },
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-threeconfig-dev-31230-authRole",
+            "UnauthRoleArn": "arn:aws:iam::050808821446:role/amplify-threeconfig-dev-31230-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::050808821446:role/amplify-threeconfig-dev-31230-authRole",
+            "Region": "eu-west-2",
+            "DeploymentBucketName": "amplify-threeconfig-dev-31230-deployment",
+            "UnauthRoleName": "amplify-threeconfig-dev-31230-unauthRole",
+            "StackName": "amplify-threeconfig-dev-31230",
+            "StackId": "arn:aws:cloudformation:eu-west-2:050808821446:stack/amplify-threeconfig-dev-31230/08700930-2bf7-11ed-834d-0262d160791a",
+            "AmplifyAppId": "d26xpbinf53r92"
+        },
+        "categories": {
+            "auth": {
+                "threeconfig67bf6efc": {}
+            },
+            "hosting": {
+                "amplifyhosting": {
+                    "appId": "d26xpbinf53r92",
+                    "type": "cicd"
+                }
+            }
+        }
     }
-  }
 }

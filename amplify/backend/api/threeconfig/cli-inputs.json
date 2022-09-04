@@ -9,11 +9,18 @@
     },
     "additionalAuthTypes": [
       {
+        "mode": "AWS_IAM"
+      },
+      {
         "mode": "API_KEY",
-        "expirationTime": 365,
-        "apiKeyExpirationDate": "2023-09-04T02:25:30.059Z",
-        "keyDescription": "threeconfigapi"
+        "keyDescription": "api key description",
+        "expirationTime": 30
       }
-    ]
+    ],
+    "conflictResolution": {
+      "defaultResolutionStrategy": {
+        "type": "AUTOMERGE"
+      }
+    }
   }
 }
