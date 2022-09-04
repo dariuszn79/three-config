@@ -1,4 +1,5 @@
-import { AmplifyAuthenticator } from "@aws-amplify/ui-react";
+import { withAuthenticator } from "@aws-amplify/ui-react";
+
 import { Amplify, API, Auth, withSSRContext } from "aws-amplify";
 import Head from "next/head";
 import awsExports from "../aws-exports";
@@ -17,7 +18,8 @@ import styles from "../styles/Home.module.css";
 
 Amplify.configure({ ...awsExports, ssr: true });
 
-export default function Home({ todos = [] }: { todos: Todo[] }) {
+function Home() {
+  // { todos = [] }: { todos: Todo[] }
   const router = useRouter();
 
   async function handleCreateTodo(event) {
@@ -57,62 +59,61 @@ export default function Home({ todos = [] }: { todos: Todo[] }) {
         <h1 className={styles.title}>Amplify + Next.js</h1>
 
         <p className={styles.description}>
-          <code className={styles.code}>{todos.length}</code>
+          {/* <code className={styles.code}>{todos.length}</code> */}
           Todos
         </p>
 
         <div className={styles.grid}>
-          {todos.map((todo) => (
+          {/* {todos.map((todo) => (
             <a href={`/todo/${todo.id}`} key={todo.id}>
               <h3>{todo.name}</h3>
               <p>{todo.description}</p>
             </a>
-          ))}
+          ))} */}
 
           <div className={styles.card}>
             <h3 className={styles.title}>New Todo</h3>
 
-            <AmplifyAuthenticator>
-              <form onSubmit={handleCreateTodo}>
-                <fieldset>
-                  <legend>Title</legend>
-                  <input
-                    defaultValue={`Today, ${new Date().toLocaleTimeString()}`}
-                    name="title"
-                  />
-                </fieldset>
+            <form onSubmit={handleCreateTodo}>
+              <fieldset>
+                <legend>Title</legend>
+                <input
+                  defaultValue={`Today, ${new Date().toLocaleTimeString()}`}
+                  name="title"
+                />
+              </fieldset>
 
-                <fieldset>
-                  <legend>Content</legend>
-                  <textarea
-                    defaultValue="I built an Amplify app with Next.js!"
-                    name="content"
-                  />
-                </fieldset>
+              <fieldset>
+                <legend>Content</legend>
+                <textarea
+                  defaultValue="I built an Amplify app with Next.js!"
+                  name="content"
+                />
+              </fieldset>
 
-                <button>Create Todo</button>
-                <button type="button" onClick={() => Auth.signOut()}>
-                  Sign out
-                </button>
-              </form>
-            </AmplifyAuthenticator>
+              <button>Create Todo</button>
+              <button type="button" onClick={() => Auth.signOut()}>
+                Sign out
+              </button>
+            </form>
           </div>
         </div>
       </main>
     </div>
   );
 }
+export default withAuthenticator(Home);
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  const SSR = withSSRContext({ req });
+// export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+//   const SSR = withSSRContext({ req });
 
-  const response = (await SSR.API.graphql({ query: listTodos })) as {
-    data: ListTodosQuery;
-  };
+//   const response = (await SSR.API.graphql({ query: listTodos })) as {
+//     data: ListTodosQuery;
+//   };
 
-  return {
-    props: {
-      todos: response.data.listTodos.items,
-    },
-  };
-};
+//   return {
+//     props: {
+//       todos: response.data.listTodos.items,
+//     },
+//   };
+// };
