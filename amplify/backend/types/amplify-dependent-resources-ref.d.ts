@@ -10,7 +10,6 @@ export type AmplifyDependentResourcesAttributes = {
     },
     "api": {
         "threeconfig": {
-            "GraphQLAPIKeyOutput": "string",
             "GraphQLAPIIdOutput": "string",
             "GraphQLAPIEndpointOutput": "string"
         }

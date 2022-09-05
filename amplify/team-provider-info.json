@@ -13,7 +13,8 @@
     },
     "categories": {
       "auth": {
-        "threeconfig67bf6efc": {}
+        "threeconfig67bf6efc": {},
+        "userPoolGroups": {}
       },
       "hosting": {
         "amplifyhosting": {
