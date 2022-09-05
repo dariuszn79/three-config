@@ -55,10 +55,11 @@ export const HomePage = () => {
 
   async function fetchTodos() {
     try {
-      const todoData = (await API.graphql(
-        graphqlOperation(listTodos)
-      )) as Promise<ListTodosQuery>;
-      const todos = todoData.data.listTodos.items;
+      const todoData = (await API.graphql(graphqlOperation(listTodos))) as {
+        data: Promise<ListTodosQuery>;
+        errors: any[];
+      };
+      const todos = (await todoData.data).listTodos.items;
       setTodos(todos);
       console.log(todoData);
     } catch (err) {
