@@ -1,0 +1,33 @@
+enum Role {
+  EDITOR
+  VIEWER
+}
+
+type Collaborator @model @auth(rules: [{ allow: private }]) {
+  id: ID!
+  User: User @hasOne
+  Role: Role
+  projectID: ID! @index(name: "byProject")
+}
+
+type User @model @auth(rules: [{ allow: private }]) {
+  id: ID!
+  Email: AWSEmail
+  Name: String
+}
+
+type Preset @model {
+  id: ID!
+  name: String
+  number: Int
+  variants: AWSJSON
+  projectID: ID! @index(name: "byProject")
+}
+
+type Project @model {
+  id: ID!
+  name: String!
+  link: String
+  Presets: [Preset] @hasMany(indexName: "byProject", fields: ["id"])
+  Collaborators: [Collaborator] @hasMany(indexName: "byProject", fields: ["id"])
+}

@@ -4,16 +4,33 @@ import { ModelInit, MutableModel, PersistentModelConstructor } from "@aws-amplif
 
 
 
-type TodoMetaData = {
+type PresetMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
 }
 
-export declare class Todo {
+type ProjectMetaData = {
+  readOnlyFields: 'createdAt' | 'updatedAt';
+}
+
+export declare class Preset {
   readonly id: string;
-  readonly name: string;
-  readonly description?: string | null;
+  readonly name?: string | null;
+  readonly number?: number | null;
+  readonly variants?: string | null;
+  readonly projectID: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<Todo, TodoMetaData>);
-  static copyOf(source: Todo, mutator: (draft: MutableModel<Todo, TodoMetaData>) => MutableModel<Todo, TodoMetaData> | void): Todo;
+  constructor(init: ModelInit<Preset, PresetMetaData>);
+  static copyOf(source: Preset, mutator: (draft: MutableModel<Preset, PresetMetaData>) => MutableModel<Preset, PresetMetaData> | void): Preset;
+}
+
+export declare class Project {
+  readonly id: string;
+  readonly name: string;
+  readonly link?: string | null;
+  readonly Presets?: (Preset | null)[] | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  constructor(init: ModelInit<Project, ProjectMetaData>);
+  static copyOf(source: Project, mutator: (draft: MutableModel<Project, ProjectMetaData>) => MutableModel<Project, ProjectMetaData> | void): Project;
 }

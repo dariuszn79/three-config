@@ -1,6 +1,14 @@
-type Todo @model @auth(rules: [{allow: owner}]) {
+type Preset @model @auth(rules: [{allow: owner}]) {
+  id: ID!
+  name: String
+  number: Int
+  variants: AWSJSON
+  projectID: ID! @index(name: "byProject")
+}
+
+type Project @model @auth(rules: [{allow: private}]) {
   id: ID!
   name: String!
-  description: String
-}
- 
+  link: String
+  Presets: [Preset] @hasMany(indexName: "byProject", fields: ["id"])
+} 

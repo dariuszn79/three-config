@@ -26,17 +26,19 @@ import * as subscriptions from "../graphql/subscriptions";
 
 Amplify.configure(awsExports);
 
-const initialFormState = { name: "", link: "" };
-const initialUserGroupState = { group: "" };
-
-const Home: NextPage = () => {
+const initialState = { name: "", link: "" };
+const Home: NextPage = ({ projects = [] }: { projects: Project[] }) => {
   const router = useRouter();
   const { user, signOut } = useAuthenticator((context) => [context.user]);
   const { authStatus } = useAuthenticator((context) => [context.authStatus]);
-  const [userGroupState, setUserGroupState] = useState(initialUserGroupState);
 
-  const [formState, setFormState] = useState(initialFormState);
-  const [projects, setProjects] = useState([]);
+  let userGroup;
+
+  useEffect(() => {
+    fetchProjects();
+  }, []);
+  const [formState, setFormState] = useState(initialState);
+  const [projectsState, setProjects] = useState([]);
 
   useEffect(() => {
     if (authStatus == "authenticated") {
@@ -44,17 +46,21 @@ const Home: NextPage = () => {
       const userAuth = user.getSignInUserSession();
       const acessToken = userAuth.getAccessToken();
       const payload = acessToken.payload;
-      // setUserGroupState({
-      //   group: payload ? payload["cognito:groups"][0] : "guest",
-      // });
-
-      fetchProjects();
+      // userGroup = payload ? payload["cognito:groups"][0] : "guest";
     }
   }, [authStatus]);
 
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value });
   }
+
+  // async function fetchprojects() {
+  //   try {
+  //     const todoData = await API.graphql(graphqlOperation(listProjects))
+  //     const projects = todoData.data.listprojects.items
+  //     setProjects(projects)
+  //   } catch (err) { console.log('error fetching projects') }
+  // }
 
   async function fetchProjects() {
     try {
@@ -68,7 +74,7 @@ const Home: NextPage = () => {
       setProjects(projects);
       console.log(projectData);
     } catch (err) {
-      console.log("error fetching projects", err);
+      console.log("error fetching projects");
     }
   }
 
@@ -77,33 +83,31 @@ const Home: NextPage = () => {
       if (!formState.name || !formState.link) return;
       const project = { ...formState };
       setProjects([...projects, project]);
-      setFormState(initialFormState);
+      setFormState(initialState);
       (await API.graphql(
         graphqlOperation(createProject, { input: project })
       )) as Promise<CreateProjectInput>;
-      fetchProjects();
     } catch (err) {
       console.log("error creating project:", err);
     }
   }
 
-  async function deleted(id, index) {
+  async function deleted(id) {
     try {
       console.log(id);
       console.log(projects);
-      var array = projects;
+      var array = projects; // make a separate copy of the array
+      var index = array.indexOf(id);
       if (index !== -1) {
         array.splice(index, 1);
         setProjects(array);
       }
       const projectDetails = {
         id: id,
-        // _version: 1,
       };
       (await API.graphql(
         graphqlOperation(deleteProject, { input: projectDetails })
       )) as Promise<DeleteProjectInput>;
-      fetchProjects();
     } catch (err) {
       console.log("error deleting project:", err);
     }
@@ -121,7 +125,7 @@ const Home: NextPage = () => {
         <Authenticator />
       ) : (
         <div className={styles.container}>
-          <h1>Welcome </h1>
+          <h1>Welcome {userGroup} </h1>
           <button className={styles.buttonPrimary} onClick={signOut}>
             Sign Out
           </button>
@@ -144,29 +148,19 @@ const Home: NextPage = () => {
           </div>
 
           <div className={styles.grid}>
-            {projects.map((project, index) => (
+            {projectsState.map((project, index) => (
               <div
                 key={project.id ? project.id : index}
                 className={styles.card}
               >
-                <div
-                  onClick={() =>
-                    router.push({
-                      pathname: `/project/${project.id}`,
-                      query: {
-                        name: `${project.name}`,
-                        link: `${project.link}`,
-                      },
-                    })
-                  }
-                >
+                <div onClick={() => router.push(`/project/${project.id}`)}>
                   <p>{project.name}</p>
                   <p>{project.link}</p>
                 </div>
                 <button
                   className={styles.buttonClose}
                   onClick={() => {
-                    deleted(project.id, index);
+                    deleted(project.id);
                   }}
                 >
                   X
@@ -179,5 +173,17 @@ const Home: NextPage = () => {
     </>
   );
 };
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const SSR = withSSRContext({ req });
 
+  const response = (await SSR.API.graphql({ query: listProjects })) as {
+    data: ListProjectsQuery;
+  };
+
+  return {
+    props: {
+      projects: response.data.listProjects.items,
+    },
+  };
+};
 export default Home;
